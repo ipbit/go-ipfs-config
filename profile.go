@@ -126,6 +126,26 @@ Make sure to backup your data frequently.`,
 			return nil
 		},
 	},
+        "rados": {
+                Description: `Replaces default datastore configuration with experimental
+rados datastore.
+
+WARNING: rados datastore is experimental.
+Make sure to backup your data frequently.`,
+
+                Transform: func(c *Config) error {
+                        c.Datastore.Spec = map[string]interface{}{
+                                "type":   "measure",
+                                "prefix": "rados.datastore",
+                                "child": map[string]interface{}{
+                                        "type":       "rados",
+                                        "pool":       "ipfs",
+                                        "confpath": "/etc/ceph/ceph.conf",
+                                },
+                        }
+                        return nil
+                },
+        },
 	"default-datastore": {
 		Description: `Restores default datastore configuration.
 
